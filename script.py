@@ -1,6 +1,8 @@
 import psutil
 from getmac import get_mac_address
 import socket
+import csv
+from datetime import datetime
 
 # MAC ADRESS
 mac = get_mac_address()
@@ -75,12 +77,24 @@ def bytes_para_gb(value):
     return value / (1024 ** 3)
 
 
+date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+dados = [
+    date_time, mac, hostname, cpu_percent, cpu_cores, cpu_threads, cpu_user, cpu_system, cpu_idle, cpu_nice, cpu_iowait, cpu_irq, cpu_softirq, loadavg[0], loadavg[1], loadavg[2], bytes_para_gb(memory_total), bytes_para_gb(memory_available), bytes_para_gb(memory_used), memory_percent, bytes_para_gb(swap_used), swap_percent, disk_write_time, disk_read_time, bytes_para_gb(net_bytes_recv), bytes_para_gb(net_bytes_sent), net_errors_in, net_errors_out, net_drops_in, net_drops_out
+]
+
+with open ("./relatorio_monitoramento.csv", "a") as csv_file:
+    csv.writer(csv_file, delimiter=";").writerow(dados)
+
+
 # ==============================
 # RELATÓRIO
 # ==============================
 
 print(f"""
-BEM VINDO AO MELHOR MONITORAMENTO DE SISTEMA
+BEM VINDO AO SENTRY, SEU MELHOR MONITORAMENTO DO SISTEMA SCADA
+
+Horário do monitoramento: {date_time}
 
 INFORMAÇÕES DO COMPUTADOR
 mac: {mac}
