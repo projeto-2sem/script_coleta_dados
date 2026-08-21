@@ -6,8 +6,8 @@ import time
 # MAC ADRESS
 hostname = "Lucas"
 
-with open ("./relatorio_monitoramento.csv", "w", newline="") as csv_file:
-        csv.writer(csv_file, delimiter=";").writerow(['Usuario', 'Data', 'cpu', 'memoria_total', 'Memoria_disponivel', 'uso_memoria_%'])
+with open (f"./{hostname}.csv", "w", newline="") as csv_file:
+        csv.writer(csv_file, delimiter=";").writerow(['Usuario', 'Data', 'cpu', 'disco_livre', 'Memoria_disponivel', 'uso_memoria_%'])
 
 for i in range(10):
     time.sleep(1)
@@ -22,15 +22,16 @@ for i in range(10):
     cpu_percent = psutil.cpu_percent(interval=1)
 
     # USO DA MEMÓRIA
-    memory_total = psutil.virtual_memory().total
     memory_available = psutil.virtual_memory().available
     memory_percent = psutil.virtual_memory().percent
 
+    #Uso do disco
+    disco = psutil.disk_usage(path= "/").free
     dados = [
-        hostname, date_time, cpu_percent, bytes_para_gb(memory_total), bytes_para_gb(memory_available), memory_percent
+        hostname, date_time, cpu_percent, bytes_para_gb(disco), bytes_para_gb(memory_available), memory_percent
     ]
 
-    with open ("./relatorio_monitoramento.csv", "a", newline="") as csv_file:
+    with open (f"./{hostname}.csv", "a", newline="") as csv_file:
         csv.writer(csv_file, delimiter=";").writerow(dados)
     # ==============================
     # RELATÓRIO
@@ -45,7 +46,7 @@ for i in range(10):
 
     INFORMAÇÕES DA MEMÓRIA RAM
 
-    Memória total: {bytes_para_gb(memory_total):.2f} GB
+    Disco livre: {disco:.2f} GB
     Memória disponível: {bytes_para_gb(memory_available):.2f} GB
     Uso da memória: {memory_percent:.1f}%
     """)
