@@ -194,5 +194,3 @@ Pacotes descartados na entrada: {network["net_drops_in"]}
 Pacotes descartados na saída: {network["net_drops_out"]}
 
 """)
-
-print(dados)
