@@ -129,12 +129,16 @@ dados = {
     **network
 }
 
-with open ("./relatorio_monitoramento.csv", "a") as csv_file:
+with open ("./relatorio_monitoramento.csv", "a", newline="") as csv_file:
     writer = csv.DictWriter(
         csv_file,
         fieldnames=dados.keys(),
         delimiter=";"
     )
+
+    if csv_file.tell() == 0:
+        writer.writeheader()
+
 
     writer.writerow(dados)
 
@@ -194,3 +198,4 @@ Pacotes descartados na entrada: {network["net_drops_in"]}
 Pacotes descartados na saída: {network["net_drops_out"]}
 
 """)
+
