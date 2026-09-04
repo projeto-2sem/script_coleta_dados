@@ -199,4 +199,4 @@ for i in range(10):
     Pacotes descartados na saída: {network["net_drops_out"]}
 
     """)
-    time.sleep(5)
+    time.sleep(10)
